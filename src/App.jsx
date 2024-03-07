@@ -1,7 +1,8 @@
 import React from 'react'
+import Container from './pages/Container'
 
 export default function App() {
   return (
-    <div>App</div>
+    <Container></Container>
   )
 }
