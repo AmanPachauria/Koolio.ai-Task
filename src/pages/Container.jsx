@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ButtonDown from "../controllers/ButtonDown";
 import ButtonUp from "../controllers/ButtonUp";
-import { useState } from "react";
-import { useEffect } from "react";
+import ElevatorSVG from "./ElevatorSVG";
+import AnimationUp from "../animations/AnimationUp";
+import AnimationDown from "../animations/AnimationDown";
 
 export default function Container() {
   const [Y_Axis, SetY_Axis] = useState(400);
@@ -12,17 +13,17 @@ export default function Container() {
   const [Down1, SetDown1] = useState(false);
   const [elevatorLevel, SetElevatorLevel] = useState(0);
 
-
   useEffect(() => {
-  
     console.log("Y_Axis updated:", Y_Axis);
     if(Y_Axis === 200 && Up1 === false && Up === true ){
         SetUp(false);
-        AnimationUp();
+        SetDown1(false);
+        AnimationUp(Y_Axis, SetY_Axis, elevatorLevel, SetElevatorLevel);
     }
     else if(Y_Axis === 200 && Down1 === false && Down === true){
         SetDown(false);
-        AnimationDown();
+        SetUp1(false);
+        AnimationDown(Y_Axis, SetY_Axis, elevatorLevel, SetElevatorLevel);
     }
     else if( Y_Axis === 200 && Up1 === true){
         SetUp(false);
@@ -34,61 +35,10 @@ export default function Container() {
     }
   }, [Y_Axis]); 
 
-  function AnimationUp() {
-    console.log("Up Animation");
-
-    const startY = Y_Axis;
-    const endY = Y_Axis - 200;
-    const duration = 5000;
-    const interval = 10;
-
-    const totalSteps = duration / interval;
-    let step = 0;
-
-    const updatePosition = () => {
-      const newY = startY - ((startY - endY) * step) / totalSteps;
-      SetY_Axis(newY);
-      step++;
-
-      if (step <= totalSteps) {
-        setTimeout(updatePosition, interval);
-      }
-    };
-
-    updatePosition();
-    SetElevatorLevel(elevatorLevel + 1);
-  }
-
-  function AnimationDown() {
-    console.log("Down Animation");
-
-    const startY = Y_Axis;
-    const endY = Y_Axis + 200; // Increase the value here
-    const duration = 5000;
-    const interval = 10;
-
-    const totalSteps = duration / interval;
-    let step = 0;
-
-    const updatePosition = () => {
-      const newY = startY + ((endY - startY) * step) / totalSteps; // Change the calculation
-      SetY_Axis(newY);
-      // console.log(newY);
-      step++;
-
-      if (step <= totalSteps) {
-        setTimeout(updatePosition, interval);
-      }
-    };
-
-    updatePosition();
-    SetElevatorLevel(elevatorLevel - 1);
-  }
-
   function handleClick0Up() {
     if (elevatorLevel === 0) {
       SetUp(true);
-      AnimationUp();
+      AnimationUp(Y_Axis, SetY_Axis, elevatorLevel, SetElevatorLevel);
       
     }
   }
@@ -96,8 +46,8 @@ export default function Container() {
   function handleClick1Up() {
     if (elevatorLevel !== 2) {
       SetUp1(true);
-      if (Up === false) {
-        AnimationUp();
+      if (Up === false && Down === false) {
+        AnimationUp(Y_Axis, SetY_Axis, elevatorLevel, SetElevatorLevel);
         SetUp1(false);
       }
     }
@@ -106,8 +56,8 @@ export default function Container() {
   function handleClick1Down() {
     if (elevatorLevel !== 0) {
       SetDown1(true);
-      if( Down === false){
-        AnimationDown();
+      if( Down === false && Up === false){
+        AnimationDown(Y_Axis, SetY_Axis, elevatorLevel, SetElevatorLevel);
         SetDown1(false);
       }
       
@@ -117,7 +67,7 @@ export default function Container() {
   function handleClick2Down() {
     if (elevatorLevel === 2) {
       SetDown(true);
-      AnimationDown();
+      AnimationDown(Y_Axis, SetY_Axis, elevatorLevel, SetElevatorLevel);
     }
   }
 
@@ -138,34 +88,7 @@ export default function Container() {
       </div>
 
       <div>
-        <svg className="h-[600px] w-60 bg-blue-200 border-black border-solid border-2">
-          <line
-            className="stroke-red-500 stroke-opacity-75 stroke-width-1"
-            x1="40"
-            y1="0"
-            x2="40"
-            y2="600"
-          />
-          <line className="stroke-red-900" x1="0" y1="200" x2="600" y2="200" />
-          <line className="stroke-red-900" x1="0" y1="400" x2="600" y2="400" />
-          <text x="80" y="100" fill="#000">
-            Level 2
-          </text>
-          <text x="80" y="300" fill="#000">
-            Level 1
-          </text>
-          <text x="80" y="500" fill="#000">
-            Level 0/GL
-          </text>
-          <rect
-            id="lift"
-            x="10"
-            y={Y_Axis}
-            height="200"
-            width="60"
-            className="stroke-black fill-yellow-500"
-          />
-        </svg>
+        <ElevatorSVG Y_Axis={Y_Axis} />
       </div>
     </div>
   );
