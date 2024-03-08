@@ -1,39 +1,54 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import React from "react";
+import ButtonDown from "../controllers/ButtonDown";
+import ButtonUp from "../controllers/ButtonUp";
 
 export default function Container() {
   return (
-    <div className="flex flex-col items-end mt-5">
-      <div className="flex flex-row">
-        <button>
-          <FontAwesomeIcon icon={faArrowDown} />
-        </button>
-        <div className="box-border h-48 w-52 bg-slate-200 border border-black lg:mr-80 md:mr-60 mr-10 flex justify-center ">
-          <spann>Level2</spann>
+    <div className="flex justify-center items-center space-x-4 gap-5">
+      <div className="flex flex-col gap-28">
+        <div >
+          <ButtonDown />
         </div>
-      </div>
-      <div className="flex flex-row">
-        <button>
-          <FontAwesomeIcon icon={faArrowDown} />
-        </button>
-        <button>
-          <FontAwesomeIcon icon={faArrowUp} />
-        </button>
-        <div className="box-border h-48 w-52 bg-slate-200 border border-black lg:mr-80 md:mr-60 mr-10 flex justify-center ">
-          <spann>Level1</spann>
+
+        <div className="flex flex-row gap-3">
+          <ButtonDown />
+          <ButtonUp />
         </div>
-      </div>
-      <div className="flex flex-row">
-        <button>
-          <FontAwesomeIcon icon={faArrowUp} />
-        </button>
-        <div className="box-border h-48 w-52 bg-slate-200 border border-black lg:mr-80 md:mr-60 mr-10 flex justify-center ">
-          <spann>Level0/GL</spann>
+        <div>
+          <ButtonUp />
         </div>
       </div>
 
-      
+      <div>
+        <svg className="h-[600px] w-60 bg-blue-200 border-black border-solid border-2">
+          <line
+            className="stroke-red-500 stroke-opacity-75 stroke-width-1"
+            x1="40"
+            y1="0"
+            x2="40"
+            y2="600"
+          />
+          <line className="stroke-red-900" x1="0" y1="200" x2="600" y2="200" />
+          <line className="stroke-red-900" x1="0" y1="400" x2="600" y2="400" />
+          <text x="80" y="100" fill="#000">
+            Level 2
+          </text>
+          <text x="80" y="300" fill="#000">
+            Level 1
+          </text>
+          <text x="80" y="500" fill="#000">
+            Level 0/GL
+          </text>
+          <rect
+            id="lift"
+            x="10"
+            y="400"
+            height="200"
+            width="50"
+            className="stroke-black fill-yellow-500"
+          />
+        </svg>
+      </div>
     </div>
-  )
+  );
 }
